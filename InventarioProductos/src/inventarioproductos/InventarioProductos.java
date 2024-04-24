@@ -21,47 +21,66 @@ public class InventarioProductos {
 
     public static void main(String[] args) {
         //Declaración de variables locales
-        int numProductos = 0;
+        int numProductos = 0, opcion;
+        boolean salir = true;
         Scanner input = new Scanner(System.in);
-        System.out.println("    -----Bienvenidos al inventario de la tienda 'Mizata'    -----");
+        String productos[][] = new String[0][0];
+        System.out.println("    -----Bienvenidos al inventario de la tienda 'MED'    -----");
 
-        while (true) {
+        while (salir) {
             try {
+                System.out.print("\n1. Agregar \n2. Ver productos \nIngrese una opcion(Salir cualquier numero): ");
+                opcion = input.nextInt();
 
-                System.out.print("¿Cuantos productos desea Ingresar? ");
-                numProductos = input.nextInt();
-
-                String productos[][] = new String[numProductos][3];
                 input.nextLine();
 
-                for (int i = 0; i < numProductos; i++) {
-                    System.out.print("\nIngrese el nombre del producto: ");
-                    productos[i][0] = input.nextLine();
+                switch (opcion) {
+                    case 1:
+                        //Agregar productos
+                        System.out.println("\n ----- Agregar productos -----");
+                        System.out.print("\n¿Cuantos productos desea Ingresar? ");
+                        numProductos = input.nextInt();
 
-                    System.out.print("Ingrese el precio del producto: $ ");
-                    productos[i][1] = String.valueOf(input.nextDouble());
+                        productos = new String[numProductos][3];
+                        input.nextLine();
 
-                    System.out.print("Ingrese la cantidad disponible de los productos: ");
-                    productos[i][2] = String.valueOf(input.nextInt());
+                        for (int i = 0; i < numProductos; i++) {
+                            System.out.print("\nIngrese el nombre del producto: ");
+                            productos[i][0] = input.nextLine();
 
-                    input.nextLine();
+                            System.out.print("Ingrese el precio del producto: $ ");
+                            productos[i][1] = String.valueOf(input.nextDouble());
+
+                            System.out.print("Ingrese la cantidad disponible de los productos: ");
+                            productos[i][2] = String.valueOf(input.nextInt());
+
+                            input.nextLine();
+                            System.out.println("\n ----- Agregado! -----");
+                        }
+                        break;
+                    case 2:
+                        //Mostrar datos del inventario
+                        System.out.println("\n ----- Inventario de productos -----");
+                        mostrarInventario(productos);
+                        break;
+                    default:
+                        salir = false;
+                        System.out.println("\n ----- Saliendo..... -----");
+                        break;
                 }
-
-                //Mostrar datos del inventario
-                mostrarInventario(productos);
-                break;
             } catch (InputMismatchException iME) {
-                System.out.println("Error!! Ingresa un número.");
+                System.out.println("\nError!! Ingresa un número.");
                 input.nextLine();
                 continue;
             } catch (Exception e) {
-                System.out.println("Error!! Verifica que todo este correcto.");
+                System.out.println("\nError!! Verifica que todo este correcto.");
                 input.nextLine();
                 continue;
             }
         }
     }
 
+    //Metodo para mostrar el inventario
     public static void mostrarInventario(String productos[][]) {
         //Impresion de datos
         System.out.println("\nInventario: ");
@@ -69,6 +88,7 @@ public class InventarioProductos {
         System.out.printf("%-20s %-10s %-10s%n", "Nombre", "Precio", "Cantidad");
         System.out.println("-".repeat(40));
 
+        //Recorriendo arreglo bidimensional con formatos
         for (String[] producto : productos) {
             String nombre = producto[0];
             double precio = Double.parseDouble(producto[1]);
@@ -78,7 +98,7 @@ public class InventarioProductos {
             valorProducto = precio * cantidad;
             totalValorInventario += valorProducto;
 
-            System.out.printf("%-20s $ %-10f %-10d%n", nombre, precio, cantidad);
+            System.out.printf("%-20s $ %-10s %-10d%n", nombre, precio, cantidad);
         }
         //Impresión del valor total del inventario
         System.out.printf("%nValor total del inventario: $%.2f%n", totalValorInventario);
