@@ -35,20 +35,27 @@ public class RegistroCompras {
             }
 
             double precio;
+            double precioTotal;
             while (true) {
                 try {
                     System.out.print("Ingrese el precio del producto: ");
                     precio = scanner.nextDouble();
                     scanner.nextLine();
+                    
+                    System.out.println("Ingrese la cantidad de productos: ");
+                    int cantidad = scanner.nextInt();
+                    scanner.nextLine();
+                    
+                    precioTotal = precio * cantidad;
                     break;
                 } catch (InputMismatchException e) {
                     System.out.println("ERROR: ingrese un valor numerico");
                     scanner.nextLine();
-                }
+                }    
             }
             //se agregan los productos y los precios ingresados al ArrayList
             nombreProductos.add(producto);
-            precioProductos.add(precio);
+            precioProductos.add(precioTotal);
         }
 
         //imprimimos todos los productos y precios ingresados en el ArrayList
@@ -60,8 +67,8 @@ public class RegistroCompras {
 
         //con ayuda de for-each mostramos el precio de los productos
         double total = 0;
-        for (double precio : precioProductos) {
-            total += precio;
+        for (double precioTotal : precioProductos) {
+            total += precioTotal;
         }
         //se imprime el precio total de todos los productos
         System.out.println("El precio total de todos los productos es de: " + total);
