@@ -29,7 +29,7 @@ public class InventarioProductos {
 
         while (salir) {
             try {
-                System.out.print("\n1. Agregar \n2. Ver productos \nIngrese una opcion(Salir cualquier numero): ");
+                System.out.print("\n1. Agregar \n2. Ver productos \n3. Salir \nIngrese una opcion(Salir cualquier numero): ");
                 opcion = input.nextInt();
 
                 input.nextLine();
@@ -60,12 +60,14 @@ public class InventarioProductos {
                         break;
                     case 2:
                         //Mostrar datos del inventario
-                        System.out.println("\n ----- Inventario de productos -----");
+                        System.out.println("\n       Inventario de productos: ");
                         mostrarInventario(productos);
                         break;
-                    default:
-                        salir = false;
+                    case 3:
                         System.out.println("\n ----- Saliendo..... -----");
+                        salir = false;
+                    default:
+                        System.out.println("\nPor favor ingrese una opcion correcta.");
                         break;
                 }
             } catch (InputMismatchException iME) {
@@ -83,7 +85,6 @@ public class InventarioProductos {
     //Metodo para mostrar el inventario
     public static void mostrarInventario(String productos[][]) {
         //Impresion de datos
-        System.out.println("\nInventario: ");
         System.out.println("-".repeat(40));
         System.out.printf("%-20s %-10s %-10s%n", "Nombre", "Precio", "Cantidad");
         System.out.println("-".repeat(40));
