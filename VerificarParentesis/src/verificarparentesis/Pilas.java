@@ -27,7 +27,6 @@ public class Pilas {
             System.out.println("La pila esta vacia.");
         }
         return parentesisAbierto[cima--];
-
     }
 
     public boolean isEMpty() {
