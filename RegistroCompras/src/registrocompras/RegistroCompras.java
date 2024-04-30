@@ -17,10 +17,10 @@ public class RegistroCompras {
         //inicializamos Scanner para capturar datos del usuario por medio de teclado
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Ingrese su nombre: ");
+        System.out.print("Ingrese su nombre: ");
         String nombre = scanner.nextLine();
         //imprimimos un mensaje de bienvenida con el nombre solicitado
-        System.out.println("Hola, " + nombre + ". Bienvenido al programa de registro de compras");
+        System.out.println("\nHola, " + nombre + ". Bienvenido al programa de registro de compras");
 
         //inicializamos dos ArrayList para capturar el nombre y precio de los productos ingresados
         ArrayList<String> nombreProductos = new ArrayList<>();
@@ -28,7 +28,7 @@ public class RegistroCompras {
 
         //utilizamos while para que el usuario ingrese la cantidad de productos hasta llegar al producto ya definido "fin"
         while (true) {
-            System.out.print("Ingrese el nombre del producto (escriba la palabra *fin* para finalizar): ");
+            System.out.print("\nIngrese el nombre del producto (escriba la palabra *fin* para finalizar): ");
             String producto = scanner.nextLine();
             if (producto.equalsIgnoreCase("fin")) {
                 break;
@@ -38,11 +38,11 @@ public class RegistroCompras {
             double precioTotal;
             while (true) {
                 try {
-                    System.out.print("Ingrese el precio del producto: ");
+                    System.out.print("Ingrese el precio del producto: $ ");
                     precio = scanner.nextDouble();
                     scanner.nextLine();
                     
-                    System.out.println("Ingrese la cantidad de productos: ");
+                    System.out.print("Ingrese la cantidad de productos: ");
                     int cantidad = scanner.nextInt();
                     scanner.nextLine();
                     
@@ -59,7 +59,7 @@ public class RegistroCompras {
         }
 
         //imprimimos todos los productos y precios ingresados en el ArrayList
-        System.out.println("PRODUCTOS INGRESADOS:");
+        System.out.println("\nPRODUCTOS INGRESADOS:");
         for (int i = 0; i < nombreProductos.size(); i++) {
             //Se imprime el nombre de cada y el precio capturados en el bucle for de productos
             System.out.println(nombreProductos.get(i) + ": " + precioProductos.get(i));
