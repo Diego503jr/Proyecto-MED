@@ -4,32 +4,39 @@
  */
 package verificarparentesis;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Diego Carías
  */
 public class Pilas {
 
-    private String parentesisAbierto[];
+    private ArrayList<String> parentesisAbierto;
     private int cima;
 
-    public Pilas(int cap) {
-        parentesisAbierto = new String[cap];
+    public Pilas() {
+        parentesisAbierto = new ArrayList<>();
         this.cima += -1;
     }
 
     public void push(String parenthesis) {
-        parentesisAbierto[++cima] = parenthesis;
+        parentesisAbierto.add(parenthesis);
+        cima++;
     }
 
     public String pop() {
-        if (isEMpty()) {
-            System.out.println("La pila esta vacia.");
-        }
-        return parentesisAbierto[cima--];
+        String elementoBorrar = peek();
+        parentesisAbierto.remove(cima);
+        cima--;
+        return elementoBorrar;
     }
 
-    public boolean isEMpty() {
+    public boolean isEmpty() {
         return cima == -1;
+    }
+    
+    public String peek(){
+        return parentesisAbierto.get(cima);
     }
 }

@@ -16,13 +16,13 @@ import java.util.logging.Logger;
  */
 public class VerificarParentesis extends Thread {
 
+    private static Pilas pilaParentesis;
+    private static String expresion, expresionBalanceada;
+
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        int menu, longExpresion;
-        int numParentesisAbiertos = 0, numParentesisCerrados = 0;
-        String expresion, parentesis = "(", expresionBalanceada = null;
+        int menu;
         boolean salir = true;
-        Pilas pilaParentesis = new Pilas(numParentesisAbiertos);
 
         while (salir) {
             try {
@@ -38,28 +38,10 @@ public class VerificarParentesis extends Thread {
                         System.out.print("\nIngrese la expresion: ");
                         expresion = input.nextLine();
 
-                        longExpresion = expresion.length();
-
-                        for (int i = 0; i < longExpresion; i++) {
-                            if (expresion.charAt(i) == '(') {
-                                numParentesisAbiertos++;
-                                pilaParentesis = new Pilas(numParentesisAbiertos);
-                                pilaParentesis.push(parentesis);
-                            }
-
-                            if (expresion.charAt(i) == ')') {
-                                numParentesisCerrados++;
-
-                                while (!pilaParentesis.isEMpty()) {
-                                    pilaParentesis.pop();
-                                    numParentesisAbiertos--;
-                                }
-                            }
-                        }
-
                         System.out.print("\nBalanceando expresion");
                         cargador();
-                        if (numParentesisAbiertos < numParentesisCerrados) {
+
+                        if (verificarBalance(expresion)) {
                             expresionBalanceada = "Balanceada";
                         } else {
                             expresionBalanceada = "No Balanceada";
@@ -74,15 +56,36 @@ public class VerificarParentesis extends Thread {
                         break;
                     default:
                         System.out.println("\nError! por favor ingrese una opcion correcta");
+                        break;
                 }
             } catch (InputMismatchException iME) {
                 System.out.println("\nError!! Ingresa un número.");
+                input.nextLine();
             } catch (Exception e) {
                 System.out.println("\nError!! Verifica que todo este correcto.");
+                input.nextLine();
             }
 
         }
         input.close();
+    }
+
+    public static boolean verificarBalance(String expresion) {
+        pilaParentesis = new Pilas();
+        for (int i = 0; i < expresion.length(); i++) {
+            char caracter = expresion.charAt(i);
+
+            if (caracter == '(') {
+                pilaParentesis.push(String.valueOf(caracter));
+            } else if (caracter == ')') {
+                if (pilaParentesis.isEmpty()) {
+                    pilaParentesis.push(String.valueOf(caracter));
+                } else {
+                    pilaParentesis.pop();
+                }
+            }
+        }
+        return pilaParentesis.isEmpty();
     }
 
     public static void cargador() {
@@ -98,5 +101,4 @@ public class VerificarParentesis extends Thread {
         }
         System.out.println("");
     }
-
 }
