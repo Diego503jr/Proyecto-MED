@@ -16,15 +16,14 @@ import java.util.logging.Logger;
  */
 public class NotacionFijaANotacionPolacaInversa extends Thread {
 
+    private static ArrayList<String> polacaInversa;
+    private static String notacionInfija;
+    private static Pila pila;
+    private static Scanner input = new Scanner(System.in);
+
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
-        Pila pila = new Pila();
-        ArrayList<String> polacaInversa = new ArrayList<>();
-        int cantidadPila = 0;
-        int menu, longExpresion;
-        String notacionInfija;
+        int menu;
         boolean salir = true;
-        char caracter;
 
         while (salir) {
             try {
@@ -37,52 +36,10 @@ public class NotacionFijaANotacionPolacaInversa extends Thread {
                 input.nextLine();
                 switch (menu) {
                     case 1:
-                        System.out.print("Ingrese la notacion infija: ");
+                        System.out.print("\nIngrese la notacion infija: ");
                         notacionInfija = input.nextLine();
 
-                        longExpresion = notacionInfija.length();
-
-                        for (int i = 0; i < longExpresion; i++) {
-                            caracter = notacionInfija.charAt(i);
-
-                            if (Character.isDigit(caracter)) {
-                                polacaInversa.add(String.valueOf(caracter));
-                            } else if (caracter == '(') {
-                                pila.push(String.valueOf(caracter));
-                            } else if (caracter == '/' || caracter == '*' || caracter == '-' || caracter == '+') {
-                                if (pila.isEmpty()) {
-                                    pila.push(String.valueOf(caracter));
-                                } else {
-                                    while (!pila.isEmpty() && operadores(caracter) <= operadores(pila.peek().charAt(0))) {
-                                        polacaInversa.add(pila.pop());
-                                    }
-                                    pila.push(String.valueOf(caracter));
-                                }
-                            } else if (caracter == ')') {
-                                while (!pila.isEmpty() && !pila.peek().equals("(")) {
-                                    polacaInversa.add(pila.pop());
-                                }
-                                if (!pila.isEmpty() && pila.peek().equals("(")) {
-                                    pila.pop();
-                                } else {
-                                    System.out.println("Error! No se encontro paréntesis de apertura correspondiente.");
-                                }
-                            }
-                        }
-
-                        while (!pila.isEmpty()) {
-                            polacaInversa.add(pila.pop());
-                        }
-
-                        System.out.print("\nBalanceando a notacion Polaca inversa");
-                        cargador();
-                        
-                        System.out.print("\nNotacion polaca inversa: ");
-                        for (String elementos : polacaInversa) {
-                            System.out.print(elementos);
-                        }
-
-                        System.out.print("\nNotacion infija: " + notacionInfija);
+                        infijaToPolacaInversa(notacionInfija, polacaInversa);
 
                         break;
                     case 2:
@@ -96,11 +53,66 @@ public class NotacionFijaANotacionPolacaInversa extends Thread {
                 }
             } catch (InputMismatchException iME) {
                 System.out.println("\nError!! Ingresa un número.");
+                input.nextLine();
             } catch (Exception e) {
-                System.out.println(e);
-                //System.out.println("\nError!! Verifica que todo este correcto.");
+                System.out.println("\nError!! Verifica que todo este correcto.");
+                input.nextLine();
             }
         }
+    }
+
+    private static void infijaToPolacaInversa(String notacionInfija, ArrayList<String> polacaInversa) {
+        polacaInversa = new ArrayList<>();
+        pila = new Pila();
+
+        for (int i = 0; i < notacionInfija.length(); i++) {
+            char caracter = notacionInfija.charAt(i);
+
+            if (Character.isDigit(caracter)) {
+                polacaInversa.add(String.valueOf(caracter));
+            } else if (caracter == '(') {
+                pila.push(String.valueOf(caracter));
+            } else if (caracter == '/' || caracter == '*' || caracter == '-' || caracter == '+') {
+                if (pila.isEmpty()) {
+                    pila.push(String.valueOf(caracter));
+                } else {
+                    while (!pila.isEmpty() && operadores(caracter) <= operadores(pila.peek().charAt(0))) {
+                        polacaInversa.add(pila.pop());
+                    }
+                    pila.push(String.valueOf(caracter));
+                }
+            } else if (caracter == ')') {
+                while (!pila.isEmpty() && !pila.peek().equals("(")) {
+                    polacaInversa.add(pila.pop());
+                }
+                if (!pila.isEmpty() && pila.peek().equals("(")) {
+                    pila.pop();
+                } else {
+                    pila.push(String.valueOf(caracter));
+                    System.out.println("\nError! No se encontro parentesis de apertura correspondiente.");
+                    break;
+                }
+            }
+        }
+        
+        while (!pila.isEmpty() && !pila.peek().equals(")") && !pila.peek().equals("(")) {
+            polacaInversa.add(pila.pop());
+        }
+
+        if (pila.isEmpty()) {
+            System.out.print("\nBalanceando a notacion Polaca inversa");
+            cargador();
+
+            System.out.print("\nNotacion polaca inversa: ");
+            for (String elementos : polacaInversa) {
+                System.out.print(elementos);
+            }
+
+            System.out.print("\nNotacion infija: " + notacionInfija);
+        } else {
+            System.out.println("\nLa expresion no esta balanceada");
+        }
+
     }
 
     private static int operadores(char operador) {
@@ -116,7 +128,7 @@ public class NotacionFijaANotacionPolacaInversa extends Thread {
         }
     }
 
-    public static void cargador() {
+    private static void cargador() {
         for (int i = 0; i < 3; i++) {
             try {
                 Thread.sleep(1000);
