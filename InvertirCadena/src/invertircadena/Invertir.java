@@ -51,7 +51,7 @@ public class Invertir {
         System.out.print("\nInvirtiendo cadena ");
         for (int i = 0; i < 3; i++) {
             try {
-                Thread.sleep(1000); // Espera de 2 segundos (2000 milisegundos)
+                Thread.sleep(1000); // Espera de 1 segundos (1000 milisegundos)
                 System.out.print(".");
             } catch (InterruptedException iE) {
                 System.out.println("Error, ");

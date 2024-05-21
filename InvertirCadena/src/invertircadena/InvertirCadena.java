@@ -28,7 +28,7 @@ public class InvertirCadena {
                 entrada.nextLine();
                 if (opcion == 1) {
                     System.out.print("Ingrese la palabra: ");
-                    cadena = entrada.nextLine();
+                    cadena = entrada.nextLine().trim();
 
                     longitud = cadena.length();
 
