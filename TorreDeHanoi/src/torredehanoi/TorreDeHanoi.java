@@ -31,10 +31,9 @@ public class TorreDeHanoi {
     }
 
     public static void movimientos(int cantidad, int torreA, int torreB, int torreC) {
-        int discoMovido;
         if (cantidad > 0) {
             movimientos(cantidad - 1, torreA, torreC, torreB);
-            discoMovido = pila.pop(torreA);
+            pila.pop(torreA);
             pila.push(torreC);
             movimientos++;
             pila.imprimir();
