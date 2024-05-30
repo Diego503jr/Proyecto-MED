@@ -4,26 +4,25 @@
  */
 package inventarioproductos;
 
+import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
- * @author Diego Carías
+ * @author Diego CarÃ­as
  */
-public class InventarioProductos extends Thread {
+public class InventarioProductos {
 
     /**
      * Programa que simule un inventario de productos en una tienda
      */
-    //Declaración de variables globales
-    static double totalValorInventario = 0, valorProducto = 0;
+    //DeclaraciÃ³n de variables globales
+    static double valorProducto = 0;
     static String productos[][] = new String[0][0];
 
     public static void main(String[] args) {
-        //Declaración de variables locales
+        //DeclaraciÃ³n de variables locales
         int numProductos = 0, opcion;
         boolean salir = true;
         Scanner input = new Scanner(System.in);
@@ -31,7 +30,11 @@ public class InventarioProductos extends Thread {
 
         while (salir) {
             try {
-                System.out.print("\n1. Agregar \n2. Ver productos \n3. Salir \nIngrese una opcion(Salir cualquier numero): ");
+                System.out.println("\n    ----- MENU -----");
+                System.out.println("1. Agregar");
+                System.out.println("2. Ver productos");
+                System.out.println("3. Salir");
+                System.out.print("Ingrese una opcion: ");
                 opcion = input.nextInt();
 
                 input.nextLine();
@@ -40,7 +43,7 @@ public class InventarioProductos extends Thread {
                     case 1:
                         //Agregar productos
                         System.out.println("\n ----- Agregar productos -----");
-                        System.out.print("\n¿Cuantos productos desea Ingresar? ");
+                        System.out.print("\nÂ¿Cuantos productos desea Ingresar? ");
                         numProductos = input.nextInt();
                         input.nextLine();
 
@@ -65,26 +68,22 @@ public class InventarioProductos extends Thread {
                         break;
                     case 2:
                         //Mostrar datos del inventario
-                        System.out.print("\nCargando Inventario");
-                        cargador();
                         if (productos.length != 0) {
-                            System.out.println("\n       Inventario de productos: ");
+                            System.out.println("\n  Inventario de productos: "+ LocalDate.now());
                             mostrarInventario(productos);
-                        }else{
+                        } else {
                             System.out.println("\n ----- El inventario esta vacio -----");
                         }
                         break;
                     case 3:
-                        System.out.print("\n ----- Saliendo");
-                        cargador();
-                        System.out.print(" -----");
+                        System.out.print("\n ----- Saliendo -----");
                         salir = false;
                     default:
                         System.out.println("\nPor favor ingrese una opcion correcta.");
                         break;
                 }
             } catch (InputMismatchException iME) {
-                System.out.println("\nError!! Ingresa un número.");
+                System.out.println("\nError!! Ingresa un nÃºmero.");
                 input.nextLine();
                 continue;
             } catch (Exception e) {
@@ -95,20 +94,9 @@ public class InventarioProductos extends Thread {
         }
     }
 
-    //Metodo cargador
-    public static void cargador() {
-        for (int i = 0; i < 3; i++) {
-            try {
-                Thread.sleep(1000);
-                System.out.print(".");
-            } catch (InterruptedException ex) {
-                Logger.getLogger(InventarioProductos.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-
     //Metodo para mostrar el inventario
     public static void mostrarInventario(String productos[][]) {
+        double totalValorInventario = 0;
         //Impresion de datos
         System.out.println("-".repeat(40));
         System.out.printf("%-20s %-10s %-10s%n", "Nombre", "Precio", "Cantidad");
@@ -124,10 +112,10 @@ public class InventarioProductos extends Thread {
             valorProducto = precio * cantidad;
             totalValorInventario += valorProducto;
 
-            System.out.printf("%-20s $ %-10s %-10d%n", nombre, precio, cantidad);
+            System.out.printf("%-20s $ %-10s %-20d%n", nombre, precio, cantidad);
         }
-        //Impresión del valor total del inventario
-        System.out.printf("%nValor total del inventario: $%.2f%n", totalValorInventario);
+        //ImpresiÃ³n del valor total del inventario
+        System.out.printf("%nValor total del inventario: $%.2f%n", totalValorInventario,"$");
     }
 
 }
