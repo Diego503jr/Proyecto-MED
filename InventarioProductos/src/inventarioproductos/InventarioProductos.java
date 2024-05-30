@@ -6,25 +6,27 @@ package inventarioproductos;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Diego Carías
  */
-public class InventarioProductos {
+public class InventarioProductos extends Thread {
 
     /**
      * Programa que simule un inventario de productos en una tienda
      */
     //Declaración de variables globales
     static double totalValorInventario = 0, valorProducto = 0;
+    static String productos[][] = new String[0][0];
 
     public static void main(String[] args) {
         //Declaración de variables locales
         int numProductos = 0, opcion;
         boolean salir = true;
         Scanner input = new Scanner(System.in);
-        String productos[][] = new String[0][0];
         System.out.println("    -----Bienvenidos al inventario de la tienda 'MED'    -----");
 
         while (salir) {
@@ -40,31 +42,42 @@ public class InventarioProductos {
                         System.out.println("\n ----- Agregar productos -----");
                         System.out.print("\n¿Cuantos productos desea Ingresar? ");
                         numProductos = input.nextInt();
-
-                        productos = new String[numProductos][3];
                         input.nextLine();
 
-                        for (int i = 0; i < numProductos; i++) {
+                        String nuevoProductos[][] = new String[productos.length + numProductos][3];
+                        System.arraycopy(productos, 0, nuevoProductos, 0, productos.length);
+
+                        for (int i = productos.length; i < nuevoProductos.length; i++) {
                             System.out.print("\nIngrese el nombre del producto: ");
-                            productos[i][0] = input.nextLine();
+                            nuevoProductos[i][0] = input.nextLine();
 
                             System.out.print("Ingrese el precio del producto: $ ");
-                            productos[i][1] = String.valueOf(input.nextDouble());
+                            nuevoProductos[i][1] = String.valueOf(input.nextDouble());
 
                             System.out.print("Ingrese la cantidad disponible de los productos: ");
-                            productos[i][2] = String.valueOf(input.nextInt());
+                            nuevoProductos[i][2] = String.valueOf(input.nextInt());
 
                             input.nextLine();
                             System.out.println("\n ----- Agregado! -----");
                         }
+
+                        productos = nuevoProductos;
                         break;
                     case 2:
                         //Mostrar datos del inventario
-                        System.out.println("\n       Inventario de productos: ");
-                        mostrarInventario(productos);
+                        System.out.print("\nCargando Inventario");
+                        cargador();
+                        if (productos.length != 0) {
+                            System.out.println("\n       Inventario de productos: ");
+                            mostrarInventario(productos);
+                        }else{
+                            System.out.println("\n ----- El inventario esta vacio -----");
+                        }
                         break;
                     case 3:
-                        System.out.println("\n ----- Saliendo..... -----");
+                        System.out.print("\n ----- Saliendo");
+                        cargador();
+                        System.out.print(" -----");
                         salir = false;
                     default:
                         System.out.println("\nPor favor ingrese una opcion correcta.");
@@ -78,6 +91,18 @@ public class InventarioProductos {
                 System.out.println("\nError!! Verifica que todo este correcto.");
                 input.nextLine();
                 continue;
+            }
+        }
+    }
+
+    //Metodo cargador
+    public static void cargador() {
+        for (int i = 0; i < 3; i++) {
+            try {
+                Thread.sleep(1000);
+                System.out.print(".");
+            } catch (InterruptedException ex) {
+                Logger.getLogger(InventarioProductos.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

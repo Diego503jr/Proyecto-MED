@@ -59,7 +59,7 @@ public class RegistroGastosMensuales {
                     System.out.println("\n\n");
                 } else if (opcion.equals("3")) {
                     System.out.println("Gracias por utilizar el registro de gastos");
-                }else{
+                } else {
                     throw new IllegalStateException("Opcion incorrecta\n");
                 }
 
@@ -91,7 +91,7 @@ public class RegistroGastosMensuales {
 
     public static String Menu() {
         System.out.println("\n1.Ingresar nuevos gastos");
-        System.out.println("2. Verifiar gastos");
+        System.out.println("2. Verificar gastos");
         System.out.println("3. Salir");
         System.out.print("Seleccione su opcion: ");
         opcion = entrada.nextLine();
