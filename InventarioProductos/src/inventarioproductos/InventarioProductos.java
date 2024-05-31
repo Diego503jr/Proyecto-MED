@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package inventarioproductos;
 
 import java.time.LocalDate;
@@ -78,6 +74,7 @@ public class InventarioProductos {
                     case 3:
                         System.out.print("\n ----- Saliendo -----");
                         salir = false;
+                        break;
                     default:
                         System.out.println("\nPor favor ingrese una opcion correcta.");
                         break;
